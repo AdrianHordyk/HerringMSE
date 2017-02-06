@@ -1,0 +1,38 @@
+Name,San Francisco Bay herring observation model,,DLMtool Definition,Notes
+Cobs,0,0,Log-normal catch observation error expressed as a coefficient of variation (uniform distribution),"Commercial catches are generally precisely recorded. I guess there is some possibility of high grading (minimal), and recreational catches aren't recorde at all, but this would be less than 10% (and probably less than 5%)."
+Cbiascv,0.025,,A coefficient of variation controlling the sampling of bias in catch observations for each simulation (uniform distribution),
+CAA_nsamp,120,160,Number of catch-at-age observation per time ste,"~200 fish are sampled per spawning event (~13-16 events per season). Of these, 10 fish are aged."
+CAA_ESS,60,160,Effective sample size (independent age draws) of the multinomial catch-at-age observation error model (uniform distribution),"20 fish are taken from each boat, 1 fish from each boat aged (10 independent), for each spawning event."
+CAL_nsamp,2400,3200,Number of catch-at-length observation per time step,"10 commercial samples are collected from each spawning wave (13-16 events per season), with each sample consisting of 20 fish."
+CAL_ESS,60,160,Effective sample size (independent length draws) of the multinomial catch-at-length observation error model (uniform distribution),Sometimes it is necessary to sample the same boat twice. 
+CALcv,0,0,"Lognormal, variability in the length at age (uniform distribution)",Is this measurement error on top of the process error associated with length at age?
+Iobs,0,0,Observation error in the relative abundance indices expressed as a coefficient of variation (uniform distribution),"Does this assume the same error for all indices? We'll start with zero, but I'll use the stock assessment estimates and the raw data to get an estimate of the error, and we'll model increases error in a degraded data scenario"
+LenMcv,0,0,Persistent bias in the prescription of length at 50 percent maturity sampled from a log-normal distribution with coefficient of variation (A50cv)(uniform distribution),"For now, we'll assume this is 0, but there is likely a bias in the the length at maturity."
+Mcv,0,0,Persistent bias in the prescription of natural mortality rate sampled from a log-normal distribution with coefficient of variation (Mcv)(uniform distribution),"Is this and the above misspecification? For now, assume this is zero, but we need to talk through what these do inside the model."
+Kcv,0,0,"""",
+t0cv,0,0,"""",
+Linfcv,0,0,"""",
+LFCcv,0,0,Persistent bias in the prescription of lenght at first capture sampled from a log-normal distribution with coefficient of variation (LFCcv)(uniform distribution),
+LFScv,0,0,Persistent bias in the prescription of length-at-fully selection sampled from a log-normal distribution with coefficient of variation ,
+B0cv,0,0,Persistent bias in the prescription of unfished biomass sampled from a log-normal distribution with coefficient of variation (B0cv)(uniform distribution),"There is uncertainty about B0. Again, not clear if this is misspecification or something else?"
+FMSYcv,0,0,Persistent bias in the prescription of FMSY sampled from a log-normal distribution with coefficient of variation,
+FMSY_Mcv,0,0,Persistent bias in the prescription of FMSY/M sampled from a log-normal distribution with coefficient of variation,
+BMSY_B0cv,0,0,Persistent bias in the prescription of BMsY relative to unfished sampled from a log-normal distribution with coefficient of variation,
+ageMcv,0,0,,Not in the help
+rcv,0,0,Persistent bias in the prescription of intrinsic rate of increase sampled from a log-normal distribution with coefficient of variation ,
+Fgaincv,0,0,,Not in the help
+A50cv,0,0,,Not in the help
+Dbiascv,0,0,Persistent bias in the prescription of stock depletion sampled from a log-normal distribution with coefficient of variation,There is uncertainty around current level of depletion.
+Dcv,0,0,"Imprecision in the prescription of stock depletion among years, expressed as a coefficient of variation (uniform distribution)",
+Btbias,0,0,Persistent bias in the prescription of current stock biomass sampled from a uniform-log distribution with range,How is this different from depletion?
+Btcv,0,0,Imprecision in the prescription of current stock biomass among years expressed as a coefficient of variation,
+Fcurbiascv,0,0,Persistent bias in the prescription of current fishing mortality rate sampled from a log-normal distribution with coefficient of variation,
+Fcurcv,0,0,Imprecision in the prescription of current fishing mortality rate among years expressed as a coefficient of variation,
+hcv,0,0,Persistent bias in steepness (uniform distribution),
+Icv,0,0,Observation error in realtive abundance index expressed as a coefficient of variation (uniform distirbution),How is this different from Iobs above?
+maxagecv,0,0,Bias in the prescription of maximum age,"This one is interesting. We should explore what happens when we think the max age is 6, but it's really 9."
+Reccv,0,0,Bias in the knowledge of recent recruitment strength,Always. 
+Irefcv,0,0,Bias in the knowledge of the relative abundance index at BMSY,
+Crefcv,0,0,,
+Brefcv,0,0,Bias in the knowledge of BMSY ,Unclear how this differs from above formulations.
+beta,1,1,A parameter controlling hyperstability/hyperdepletion. I^beta therefore values below 1 lead to hyperstability (an index that decreases slower than true abundance) and values above 1 lead to hyperdepletion (an index that decreases more rapidly than true abundance)(uniform distribution),"We should consider hyperstaility given schooling behavior. Theoretically the abundance surveys account for that because they measure the spatial extent of spawns as well as the density, and the fishery is managed using catch rather than CPUE."

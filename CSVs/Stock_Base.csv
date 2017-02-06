@@ -1,0 +1,29 @@
+Name,San Francisco Bay herring,,DLMtool Definition,AH Notes,Notes
+maxage,6,,,,Chosen to simulate high mortality in age 6 in Model 19
+R0,1217850000,,,"increased by factor of 1000. SA is not clear, but appears to be in units of 1,000 fish. Otherwise SSB0 ends up being around 90 tonnes",From Model 19
+M,0.48,0.73,Uniform distribution assumed by DLM tool,,"Model 19 Estimated M to equal 0.61, with a 95% CI of 0.32-1.03. Here, I've assumed that M is 0.61 +/- 20%."
+Msd,0,0,Inter-annual variability in natural mortality rate expressed as a coefficient of variation (uniform distribution),,"For the baseline model, I will assume that M is static from year to year."
+Mgrad,0,0,"Mean temporal trend in natural mortality rate, expressed as a percentage change in M per year (uniform distribution)",,"For the baseline model, we assume no temporal trends"
+h,0.49,0.86,Steepness (Uniform distribution),sample externally,"Model 19 assumed a hockey stick relationship between S and R, with a breakpoint at the lowest observed biomass. Here we assume he BH formulation estimated in the stock assessment, with h=0.79 (sd = 0.39). Note that the shepherd formulation with a gamma=0.9 had a slightly better likelihood. For the base model, I used the range found in Myers 1999 for clupioformes."
+SRrel,1,,Type of stock-recruit relationship (1)Beverton-Holt (2) Ricker,,
+Linf,999,999,Uniform distribution assumed by DLM tool,estimate externally ,See Additional Datafile. I fit a VB model to the mean age at length data between 1984 and 2016 to understand the joint distribution.
+K,999,999,von B. growth parameter k (uniform distribution),,See Additional Datafile. I fit a VB model to the mean age at length data between 1984 and 2016 to understand the joint distribution.
+t0,999,999,von B. theoretical age at length zero (uniform distribution),,See Additional Datafile. I fit a VB model to the mean age at length data between 1984 and 2016 to understand the joint distribution.
+Ksd,0,0,,,No interannual variation in base model
+Kgrad,0,0,,, 0 for Base model. There has been a decrease in the max age and max length of the fisher since the 1990s.Will calculate grandient outside DLM tool from data.
+Linfsd,0,0,,,No interannual variation in base model
+Linfgrad,0,0,,,0 for Base mode. Will calculate grandient outside DLM tool from data.
+recgrad,0,0,Mean temporal trend in log-normal recruitment deviations (uniform distribution),,No gradient in base model
+a,5.06E-12,,Length-weight parameter alpha (uniform distribution),these are fixed in the model so only 1 value required,"I fit these to the data from 1984 to 2016 .The units are in mm (length) and short tons (weight). The parameters are highly correlated, but don't vary that much over the years, so I'm inclined to use exact values."
+b,3.227368,,Length-weight parameter beta (uniform distribution),,"I fit these to the data from 1984 to 2016. .The units are in mm (length) and short tons (weight.  The parameters are highly correlated, but don't vary that much over the years, so I'm inclined to use exact values."
+D,0.47,0.8,Current level of stock depletion (Bcurrent/Bunfished) (uniform distribution),changed to proportion,The Base model estimated SSB in the 2015-16 at 63.4% of unfished biomass. We'll condsider a +/-25% range.
+L50,99,99,Length-at- 50 percent maturity (uniform distribution),age at maturity provided externally,See Additional Datafile. The base model uses age based maturity from BC herring - this is an area of uncertainty that we will explore in sensitivity analyses.
+L50_95,99,99,Length increment from 50 percent to 95 percent maturity,Need to be lower than Linf ,See Additional Datafile. The base model uses age based maturity from BC herring - this is an area of uncertainty that we will explore in sensitivity analyses.
+Perr,0.56,0.84,"Process error, the CV of lognormal recruitment deviations (uniform distribution)",0.7 +/- 20% - try this first,The base model estimates recruitment deviations directly. I fit a model to the rec deviations to characterize their distributions.
+AC,0.6,0.9,Autocorrelation in recruitment deviations rec(t)=AC*rec(t-1)+(1-AC)*sigma(t) (uniform distribution),0.751 +/- 20% from table 9,"The base model estimated serial auto correlation to be 0.751, with a  CV of 0.035."
+Period,,,The duration of recruitment regimes,,"For the base model, we assume no periodicity in recruitment beyond auto-correlation. Will explore in climate change scens."
+Amplitude,,,The magintude of recuritment increase/decrease,,"For the base model, we assume no periodicity in recruitment beyond auto-correlation. Will explore in climate change scens."
+Size_area_1,0.5,0.5,,,No spatial assumptions in model
+Frac_area_1,0.5,0.5,,,No spatial assumptions in model
+Prob_staying,0.5,0.5,,,No spatial assumptions in model
+Source,"Model 19, Stock assessment and evaluation of harvest control rules for San Francisco Bay Herring. 2017. Roel, B.A., Walker, N.D., De Oliveira, J.A.A.",,,,
