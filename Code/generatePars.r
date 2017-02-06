@@ -60,7 +60,7 @@ setup() # set-up parallel processing
 if(!"mvtnorm" %in% rownames(installed.packages())) install.packages("mvtnorm")
 
 # Define working directory as path to local project 
-wd <- "E:/Dropbox/Projects/CAHerringMSE/Project"
+wd <- "E:/GitRepos/HerringMSE"
 
 # number of simulations 
 nsim <- 36 # increase later and re-run script 
@@ -114,6 +114,7 @@ Wgt <- Stock@a * Lens^Stock@b
 matAge <- c(0.00459511, 0.0122648, 0.192453, 0.647015, 1, 1) # assume same as sel2 below
 matAge <- c(0, 0.36, 0.94, 1, 1, 1) # Table A1.2
 sum(Ns * Wgt * matAge) # cf. 84799 estimate of Ksp in Table 9 
+sum(Ns * Wgt * matAge)/84799
 # - right order of magnitude but considerably lower 
 
 ##****************************##
@@ -177,8 +178,8 @@ useOM <- optOM
 
 useOM@Fsd <- c(0,0)
 testPars <- custompars
-testPars$EffLower <- rep(0, OM@nyears)
-testPars$EffUpper <- rep(0, OM@nyears) # make fishing effort zero for most years 
+testPars$EffLower <- rep(0, useOM@nyears)
+testPars$EffUpper <- rep(0, useOM@nyears) # make fishing effort zero for most years 
 testPars$EffUpper[40:44] <- 1 
 
 runHist <- runMSE(useOM, MPs=NA, nsim=nsim, proyears=proyears, Hist=TRUE, 
