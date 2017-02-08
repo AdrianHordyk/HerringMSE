@@ -18,7 +18,7 @@ source(paste0(wd, "/Code/makeMPs.r")) # source script to create MPs
 
 ## MSE Setup ##
 
-nsim <- 60 # number of simulations - increase later and re-run script 
+nsim <- 120 # number of simulations - increase later and re-run script 
 proyears <- 50 # number of years to project into future 
 set.seed(101) # set seed so random parameter draws are consistent
 
@@ -91,15 +91,6 @@ runHist <- runMSE(OM, MPs=NA, nsim=nsim, proyears=proyears, Hist=TRUE,
 plot(runHist$SampPars$dep, 	runHist$SampPars$Depletion, 
   xlab="Sampled Depletion", ylab="Simulated Depletion")
 
-# myOM <- OM
-# myOM@AC <- c(0, 0)  
-# myOM@Perr <- c(0.8, 1.1)
-# runHist <- runMSE(myOM, MPs=NA, nsim=nsim, proyears=proyears, Hist=TRUE, 
-    # useTestCode=TRUE, custompars=custompars)
-
-# plot(runHist2$SampPars$dep, runHist2$SampPars$Depletion, 
-  # xlab="Sampled Depletion", ylab="Simulated Depletion")
-  
 ## Plot Simulated Trajectories 
 matplot(EffYears, t(runHist$SampPars$Find), type="l") # Historical Relative Fishing Effort
 lines(EffYears, t(runHist$SampPars$Find)[,sample(1:nsim,1)], lwd=3)  # Example single trajectory
@@ -118,18 +109,11 @@ lines(EffYears, runHist$TSdata$VB[,sample(1:nsim,1)], lwd=3)  # Example single t
 lines(EffYears, fitdata, type="l",  lwd=4, col="blue") # SSB data 
 # vulnerable biomass is about half of spawning biomass 		
 
-# NOTE: high auto-correlation makes it difficult to reach depletion in some cases
-#	 	may have to decrease AC and/or increase Perr to simulate large fluctuations in SSB
 
 ## FMSY and MSY Harvest Rate ##
 harvRate <- 1-exp(-runHist$MSYs$FMSYb)
 hist(harvRate)
 mean(harvRate)
-
-# NOTE: MSY harvest rate (of spawning biomass) is about 35% which is higher 
-#		than that reported in stock assessment or MacCall et al earlier review
-#		Suggests that under current conditions, fixed harvest rate of ~35% 
-#		will result in the highest long-term yields
 
 
 # Check with older version (slower)
@@ -162,8 +146,6 @@ fixed0.5 <- makeMinMaxMP(minB=0, maxB=1, PercCap=0.5) # fixed harvest rate at 50
 # NOTE: 
 # Assumption -  HCR acts on absolute spawning stock abundance with TAC applied to 
 #				vulnerable biomass (which is about half of SSB)
-#	Stock assessment assumes that SSB index is about 1/3 of actual SSB 
-
 
 Outputs <- avail("DLM_output") # All output controls 
 Ind <- NULL 
@@ -175,8 +157,7 @@ for (X in seq_along(Outputs))
 MPs <- c(Outputs[Ind], "curE", "FMSYref", "NFref")
 
 MSE <- runMSE(OM, MPs=MPs, nsim=nsim, proyears, interval=1, 
-    useTestCode=TRUE, custompars=custompars,
-	CheckMPs=FALSE)
+    useTestCode=TRUE, custompars=custompars, CheckMPs=FALSE)
 
 	
 # Save MSE Object to Disk 	
@@ -186,26 +167,25 @@ if (file.exists(paste0(wd, "/SaveObjs/", Name, "_MSE.rds")))  # object already e
 saveRDS(MSE, file=paste0(wd, "/SaveObjs/", Name, "_MSE.rds"))
 
 
-# Initial Explortation of MSE Results 
-	
-	
-NOAA_plot(MSE)	 # under current conditions fixed harvest rate of 30% does best
-# MPs with higher harvest rate perform the same because TAC is greater than available catch 
+######
+######
+NOAA_plot(MSE)
 
-runHist$DLM_data@Abun/runHist$DLM_data@SpAbun # vulnerable biomass about 50% of spawning biomass 
 
-ylim <- c(0, max(MSE@C))
-op <- par(mfrow=c(4,4))
-for (mm in 1:MSE@nMPs) matplot(t(MSE@C[, mm, ]), type="l", main=MSE@MPs[mm], bty="l", ylim=ylim)
-par(op)
+library(DLMtool)
+OMtest <- new("OM", Albacore, Generic_fleet, Perfect_Info)
+testMSE <- runMSE(OM, MPs=c("fixed0.5", "FMSYref"), nsim=nsim, proyears, interval=1, 
+    useTestCode=TRUE, custompars=custompars, CheckMPs=FALSE)
 
-ylim <- c(0, max(MSE@C))
-op <- par(mfrow=c(4,4))
-for (mm in 1:MSE@nMPs) matplot(t(MSE@SSB[, mm, ]), t(MSE@C[, mm, ]), type="l", main=MSE@MPs[mm], bty="l", ylim=ylim)
-par(op)
+hist(testMSE@F_FMSY)
 
 
 
 
 
- 
+
+
+
+
+
+
