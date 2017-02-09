@@ -18,7 +18,7 @@ source(paste0(wd, "/Code/makeMPs.r")) # source script to create MPs
 
 ## MSE Setup ##
 
-nsim <- 120 # number of simulations - increase later and re-run script 
+nsim <- 100 # number of simulations - increase later and re-run script 
 proyears <- 50 # number of years to project into future 
 set.seed(101) # set seed so random parameter draws are consistent
 
@@ -157,7 +157,7 @@ for (X in seq_along(Outputs))
 MPs <- c(Outputs[Ind], "curE", "FMSYref", "NFref")
 
 MSE <- runMSE(OM, MPs=MPs, nsim=nsim, proyears, interval=1, 
-    useTestCode=TRUE, custompars=custompars, CheckMPs=FALSE)
+    useTestCode=TRUE, custompars=custompars, CheckMPs=FALSE, maxF=2)
 
 	
 # Save MSE Object to Disk 	
@@ -166,18 +166,10 @@ if (file.exists(paste0(wd, "/SaveObjs/", Name, "_MSE.rds")))  # object already e
 
 saveRDS(MSE, file=paste0(wd, "/SaveObjs/", Name, "_MSE.rds"))
 
-
 ######
 ######
-NOAA_plot(MSE)
 
 
-library(DLMtool)
-OMtest <- new("OM", Albacore, Generic_fleet, Perfect_Info)
-testMSE <- runMSE(OM, MPs=c("fixed0.5", "FMSYref"), nsim=nsim, proyears, interval=1, 
-    useTestCode=TRUE, custompars=custompars, CheckMPs=FALSE)
-
-hist(testMSE@F_FMSY)
 
 
 

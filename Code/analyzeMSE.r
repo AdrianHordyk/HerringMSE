@@ -1,6 +1,7 @@
 
 # Define working directory as path to local project 
 wd <- "E:/GitRepos/HerringMSE"
+library(DLMtool)
 
 ## Load MSE Object ##
 Name <- "BaseCase"
@@ -40,3 +41,4 @@ op <- par(mfrow=c(4,4))
 for (mm in 1:MSE@nMPs) matplot(t(MSE@SSB[, mm, ]), t(MSE@C[, mm, ]), type="l", main=MSE@MPs[mm], bty="l", ylim=ylim)
 par(op)
 
+NOAA_plot(MSE)
