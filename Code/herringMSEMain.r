@@ -18,7 +18,7 @@ source(paste0(wd, "/Code/makeMPs.r")) # source script to create MPs
 
 ## MSE Setup ##
 
-nsim <- 100 # number of simulations - increase later and re-run script 
+nsim <- 60 # number of simulations - increase later and re-run script 
 proyears <- 50 # number of years to project into future 
 set.seed(101) # set seed so random parameter draws are consistent
 
@@ -63,6 +63,34 @@ source(paste0(wd, "/Code/generatePars.r"))
 ###############################################
 
 OM <- new("OM", Stock, Fleet, Obs) # 
+set.seed(101)
+testRun <- runMSE(OM, Hist=TRUE, custompars=custompars, nsim=nsim, proyears=proyears)
+
+######################################
+# Test Generating Correlated Samples #
+######################################
+source("E:/Dropbox/Projects/CAHerringMSE/Code/vcv_mod.r")
+# This code generates correlated samples of R0, recruitment error and fishing mortality
+# supercedes some of the parameters in the generatePars code 
+
+custompars$R0 <- R0
+custompars$Find <- Find
+custompars$Perr <- Perr 
+
+set.seed(101)
+testRun2 <- runMSE(OM, Hist=TRUE, custompars=custompars, nsim=nsim, proyears=proyears)
+# Currently doesn't work because it re-samples recruitment error and fishing effort 
+# from the Stock & Fleet objects to try get to the sampled depletion 
+# If it just re-samples depletion it fails to get there for most simulations 
+# Problem may be fixed if we get correlated samples of depletion  
+
+matplot(testRun$TSdata$C, type="l")
+
+matplot(testRun2$TSdata$C, type="l")
+
+testRun$SampPars$Find[,1]
+testRun2$SampPars$Find[,1]
+
 
 ##################################### 
 # Inspect the OM Parameters 		#
@@ -156,8 +184,8 @@ for (X in seq_along(Outputs))
 # Select herring MPs, current effort, FMSY and No Fishing reference methods
 MPs <- c(Outputs[Ind], "curE", "FMSYref", "NFref")
 
-MSE <- runMSE(OM, MPs=MPs, nsim=nsim, proyears, interval=1, 
-    useTestCode=TRUE, custompars=custompars, CheckMPs=FALSE, maxF=2)
+MSE <- runMSE(OM, MPs=MPs, nsim=nsim, proyears, interval=1, custompars=custompars, 
+        CheckMPs=FALSE, maxF=2)
 
 	
 # Save MSE Object to Disk 	
